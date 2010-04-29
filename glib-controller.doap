@@ -7,8 +7,7 @@
   <name>GLib-Controller</name>
   <shortname>glib-controller</shortname>
   <shortdesc>Library providing Controllers for MVC applications</shortdesc>
-  <description>GLib-Controller provides controllers for applications using the
-  model-view-controller design with GLib data types for storage.</description>
+  <description>GLib-Controller provides controllers for applications using the model-view-controller design with GLib data types for storage.</description>
 
 <!--
   <homepage rdf:resource="http://live.gnome.org/JsonGlib"/>

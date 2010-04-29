@@ -26,6 +26,7 @@ doc/Makefile.in
 doc/reference/Makefile
 doc/reference/Makefile.in
 doc/reference/version.xml
+GController-1.0.*
 glib-controller-1.0.pc
 glib-controller.pc
 glib-controller/gcontrollerenumtypes.[ch]

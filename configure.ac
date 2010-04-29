@@ -22,26 +22,30 @@ m4_define([lt_age], [m4_eval(controller_binary_age - controller_interface_age)])
 
 m4_define([glib_req_version], [2.20])
 
-AC_PREREQ([2.61])
+AC_PREREQ([2.63])
 
 AC_INIT([glib-controller],
         [controller_version],
         [],
         [glib-controller])
 
+AM_CONFIG_HEADER([config.h])
 AC_CONFIG_SRCDIR([glib-controller/glib-controller.h])
 AC_CONFIG_MACRO_DIR([build])
 
 AM_INIT_AUTOMAKE([1.11 no-define -Wno-portability dist-bzip2 foreign])
-AM_CONFIG_HEADER([config.h])
 
-AM_DISABLE_STATIC
+AM_SILENT_RULES([yes])
+
+# Check for programs
+AC_PROG_CC_C_O
+
 AM_PATH_GLIB_2_0
-AM_PROG_CC_C_O
-AM_PROG_LIBTOOL
 
-# Honor aclocal flags
-ACLOCAL="$ACLOCAL $ACLOCAL_FLAGS"
+# Initialize libtool
+LT_PREREQ([2.2.6])
+LT_INIT([disable-static])
+
 
 GCONTROLLER_MAJOR_VERSION=controller_major_version
 GCONTROLLER_MINOR_VERSION=controller_minor_version
@@ -61,12 +65,6 @@ GCONTROLLER_LT_VERSION="$GCONTROLLER_LT_CURRENT:$GCONTROLLER_LT_REVISION:$GCONTR
 
 GCONTROLLER_LDFLAGS="-version-info $GCONTROLLER_LT_VERSION"
 AC_SUBST(GCONTROLLER_LDFLAGS)
-
-AC_HEADER_STDC
-AC_CHECK_HEADERS([unistd.h])
-AC_C_CONST
-AC_FUNC_MALLOC
-AC_FUNC_MMAP
 
 GLIB_PREFIX="`$PKG_CONFIG --variable=prefix gobject-2.0`"
 AC_SUBST(GLIB_PREFIX)
@@ -154,12 +152,6 @@ GTK_DOC_CHECK([1.13])
 
 GOBJECT_INTROSPECTION_CHECK([0.6.5])
 
-m4_ifdef([AM_SILENT_RULES],
-         [
-           AM_SILENT_RULES([yes])
-           use_shave=no
-         ])
-
 AC_CONFIG_FILES([
         Makefile
         glib-controller.pc
@@ -180,7 +172,6 @@ echo " • Prefix: ${prefix}"
 echo ""
 echo " • Debug level: ${enable_debug}"
 echo " • Compiler flags: ${MAINTAINER_CFLAGS}"
-echo " • Use shave: ${use_shave}"
 echo ""
 echo " • API reference: ${enable_gtk_doc}"
 echo ""

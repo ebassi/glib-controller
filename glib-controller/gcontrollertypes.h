@@ -59,21 +59,32 @@ typedef struct _GHashController         GHashController;
 
 /**
  * GControllerAction:
+ * @G_CONTROLLER_INVALID: Marker for initial/error state
  * @G_CONTROLLER_ADD: New items have been added to the storage
  *   controlled by a #GController
  * @G_CONTROLLER_REMOVE: Items have been removed from the storage
  *   controlled by a #GController
  * @G_CONTROLLER_UPDATE: Items have been updated in the storage
  *   controlled by a #GController
+ * @G_CONTROLLER_CLEAR: The storage controlled by a #GController
+ *   has been cleared; semantically, it's the equivalent of a
+ *   %G_CONTROLLER_REMOVE for every index of the storage
+ * @G_CONTROLLER_REPLACE: The storage controlled by a #GController
+ *   has been completely replaced; semantically, it's the equivalent
+ *   of a %G_CONTROLLER_REMOVE for every index of the old storage
+ *   and a %G_CONTROLLER_ADD for every index of the new storage
  *
  * The available actions supported by a #GController
  *
  * This enumeration might be extended at later date
  */
 typedef enum { /*< prefix=G_CONTROLLER >*/
+  G_CONTROLLER_INVALID,
   G_CONTROLLER_ADD,
   G_CONTROLLER_REMOVE,
-  G_CONTROLLER_UPDATE
+  G_CONTROLLER_UPDATE,
+  G_CONTROLLER_CLEAR,
+  G_CONTROLLER_REPLACE
 } GControllerAction;
 
 G_END_DECLS

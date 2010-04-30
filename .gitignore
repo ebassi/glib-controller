@@ -54,6 +54,7 @@ libtool
 ltmain.sh
 missing
 omf.make
+simple-model
 stamp-h1
 stamp-enum-types
 stamp-marshal

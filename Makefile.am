@@ -16,6 +16,8 @@ EXTRA_DIST =
 TEST_PROGS =
 check_PROGRAMS = $(TEST_PROGS)
 
+noinst_PROGRAMS =
+
 # unfortunately, gtk-doc has issues with non-recursive autotools
 SUBDIRS = . doc
 
@@ -134,6 +136,13 @@ hash_controller_SOURCES = glib-controller/tests/hash-controller.c
 hash_controller_CPPFLAGS = $(AM_CPPFLAGS) $(GCONTROLLER_DEBUG_CFLAGS) -I$(top_srcdir) -I$(top_srcdir)/glib-controller -I$(top_builddir)
 hash_controller_CFLAGS = $(GCONTROLLER_CFLAGS) $(MAINTAINER_CFLAGS)
 hash_controller_LDADD = $(GCONTROLLER_LIBS) $(top_builddir)/libglib-controller-1.0.la
+
+# Examples
+noinst_PROGRAMS += simple-model
+simple_model_SOURCES = examples/simple-model.c
+simple_model_CPPFLAGS = $(AM_CPPFLAGS) $(GCONTROLLER_DEBUG_CFLAGS) -I$(top_srcdir) -I$(top_srcdir)/glib-controller -I$(top_builddir)
+simple_model_CFLAGS = $(GCONTROLLER_CFLAGS) $(MAINTAINER_CFLAGS)
+simple_model_LDADD = $(GCONTROLLER_LIBS) $(top_builddir)/libglib-controller-1.0.la
 
 # GCov rules
 #include $(top_srcdir)/build/Makefile.am.gcov

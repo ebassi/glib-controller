@@ -5,7 +5,7 @@
 #include "gptrarraycontroller.h"
 
 /**
- * SECTION:g-array-controller
+ * SECTION:gptrarraycontroller
  * @Title: GPtrArrayController
  * @Short_Description: A controller for GLib arrays
  * @See_Also: #GController, #GPtrArray

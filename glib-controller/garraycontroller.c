@@ -5,7 +5,7 @@
 #include "garraycontroller.h"
 
 /**
- * SECTION:g-array-controller
+ * SECTION:garraycontroller
  * @Title: GArrayController
  * @Short_Description: A controller for GLib arrays
  * @See_Also: #GController, #GArray

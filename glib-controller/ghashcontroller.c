@@ -5,7 +5,7 @@
 #include "ghashcontroller.h"
 
 /**
- * SECTION:g-hash-controller
+ * SECTION:ghashcontroller
  * @Title: GHashController
  * @Short_Description: A controller for GLib hash tables
  * @See_Also: #GController, #GHashTable

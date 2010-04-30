@@ -62,6 +62,9 @@ gboolean              g_controller_reference_get_index_value   (GControllerRefer
 
 void                  g_controller_reference_add_index         (GControllerReference *ref,
                                                                 ...);
+gboolean              g_controller_reference_get_index         (GControllerReference *ref,
+                                                                gint                  pos,
+                                                                ...);
 
 gint                  g_controller_reference_get_index_int     (GControllerReference *ref,
                                                                 gint                  pos);

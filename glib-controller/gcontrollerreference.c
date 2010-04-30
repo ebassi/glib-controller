@@ -435,6 +435,54 @@ out:
 }
 
 /**
+ * g_controller_reference_get_index:
+ * @ref: a #GControllerReference
+ * @pos: the position of the index
+ * @Varargs: return location for the index value at the given position
+ *
+ * Retrieves the index inside the @ref
+ *
+ * Return value: %TRUE on success
+ */
+gboolean
+g_controller_reference_get_index (GControllerReference *ref,
+                                  gint                  pos,
+                                  ...)
+{
+  GValue *value;
+  gchar *error = NULL;
+  va_list args;
+  gboolean res = FALSE;
+
+  g_return_val_if_fail (G_IS_CONTROLLER_REFERENCE (ref), FALSE);
+
+  if (ref->priv->indices == NULL)
+    return FALSE;
+
+  va_start (args, pos);
+
+  value = g_value_array_get_nth (ref->priv->indices, pos);
+  if (value == NULL)
+    goto out;
+
+  G_VALUE_LCOPY (value, args, 0, &error);
+
+  if (error != NULL)
+    {
+      g_warning ("%s: %s", G_STRLOC, error);
+      g_free (error);
+      res = FALSE;
+    }
+  else
+    res = TRUE;
+
+out:
+  va_end (args);
+
+  return res;
+}
+
+/**
  * g_controller_reference_get_index_int:
  * @ref: a #GControllerReference
  * @pos: the position of the index

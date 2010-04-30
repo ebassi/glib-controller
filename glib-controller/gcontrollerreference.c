@@ -393,7 +393,7 @@ g_controller_reference_get_index_value (GControllerReference *ref,
 /**
  * g_controller_reference_add_index:
  * @ref: a #GControllerReference
- * @VarArgs: the index to add
+ * @Varargs: the index to add
  *
  * Variadic arguments version of g_controller_reference_add_index_value(),
  * for the convenience of users of the C API

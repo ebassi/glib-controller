@@ -145,7 +145,7 @@ g_controller_create_referencev (GController       *controller,
  * @action: the action for the reference
  * @index_type: the type of the indices
  * @n_indices: the number of indices, or 0 to create an empty reference
- * @VarArgs: the indices
+ * @Varargs: the indices
  *
  * Creates a new #GControllerReference for the given indices
  *

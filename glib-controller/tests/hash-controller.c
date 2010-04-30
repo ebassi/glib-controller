@@ -24,7 +24,7 @@ hash_create_reference (void)
   GControllerReference *reference;
 
   controller = g_hash_controller_new (NULL);
-  reference = g_controller_create_reference (controller, 1, GINT_TO_POINTER (0xdeadbeef));
+  reference = g_controller_create_reference (controller, G_CONTROLLER_CLEAR, G_TYPE_POINTER, 1, GINT_TO_POINTER (0xdeadbeef));
 
   g_assert (G_IS_CONTROLLER_REFERENCE (reference));
   g_assert (g_controller_reference_get_index_type (reference) == G_TYPE_POINTER);
@@ -61,14 +61,14 @@ on_changed (GController *controller,
 
   for (i = 0; i < n_indices; i++)
     {
-      gpointer idx = g_controller_reference_get_index_pointer (reference, i);
+      const gchar *idx = g_controller_reference_get_index_string (reference, i);
 
       if (g_test_verbose ())
         g_print ("Got '%s' (%p), expected '%s' (%p)\n",
                  (char *) idx, idx,
                  (char *) clos->indices[i], clos->indices[i]);
 
-      g_assert (idx == clos->indices[i]);
+      g_assert_cmpstr (idx, ==, clos->indices[i]);
     }
 }
 
@@ -87,14 +87,14 @@ hash_emit_changed (void)
   foo = g_strdup ("foo");
 
   expected.action = G_CONTROLLER_ADD;
-  expected.index_type = G_TYPE_POINTER;
+  expected.index_type = G_TYPE_STRING;
   expected.n_indices = 1;
   expected.indices = g_new (gchar*, expected.n_indices);
   expected.indices[0] = foo;
 
   g_hash_table_insert (hash, foo, g_strdup ("bar"));
 
-  ref = g_controller_create_reference (controller, 1, foo);
+  ref = g_controller_create_reference (controller, G_CONTROLLER_ADD, G_TYPE_STRING, 1, foo);
   g_assert (G_IS_CONTROLLER_REFERENCE (ref));
   g_controller_emit_changed (controller, G_CONTROLLER_ADD, ref);
 

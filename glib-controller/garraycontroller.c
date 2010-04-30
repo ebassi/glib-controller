@@ -28,13 +28,6 @@ enum
 
 G_DEFINE_TYPE (GArrayController, g_array_controller, G_TYPE_CONTROLLER);
 
-static GType
-get_index_type (GController *controller)
-{
-  /* GArray indexes are unsigned integers */
-  return G_TYPE_UINT;
-}
-
 static void
 g_array_controller_set_property (GObject      *gobject,
                                  guint         prop_id,
@@ -89,11 +82,8 @@ g_array_controller_finalize (GObject *gobject)
 static void
 g_array_controller_class_init (GArrayControllerClass *klass)
 {
-  GControllerClass *controller_class = G_CONTROLLER_CLASS (klass);
   GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
   GParamSpec *pspec;
-
-  controller_class->get_index_type = get_index_type;
 
   gobject_class->set_property = g_array_controller_set_property;
   gobject_class->get_property = g_array_controller_get_property;

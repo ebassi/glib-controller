@@ -23,8 +23,6 @@ struct _GController
 
 /**
  * GControllerClass:
- * @get_index_type: virtual function; sub-classes should return the type
- *   of the index inside a #GControllerReference
  * @create_reference: virtual function; sub-classes should create a new
  *   #GControllerReference instance for the given indexes
  * @changed: class handler for the #GController::changed signal
@@ -40,8 +38,9 @@ struct _GControllerClass
   /*< public >*/
 
   /* virtual functions */
-  GType                 (* get_index_type)   (GController          *controller);
   GControllerReference *(* create_reference) (GController          *controller,
+                                              GControllerAction     action,
+                                              GType                 index_type,
                                               GValueArray          *indexes);
 
   /* signals */
@@ -65,10 +64,14 @@ struct _GControllerClass
 GType g_controller_get_type (void) G_GNUC_CONST;
 
 GControllerReference *g_controller_create_reference  (GController          *controller,
-                                                      gint                  n_items,
+                                                      GControllerAction     action,
+                                                      GType                 index_type,
+                                                      gint                  n_indices,
                                                       ...);
 GControllerReference *g_controller_create_referencev (GController          *controller,
-                                                      GValueArray          *indexes);
+                                                      GControllerAction     action,
+                                                      GType                 index_type,
+                                                      GValueArray          *indices);
 
 void                  g_controller_emit_changed      (GController          *controller,
                                                       GControllerAction     action,

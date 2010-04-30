@@ -24,7 +24,9 @@ array_create_reference (void)
   GControllerReference *reference;
 
   controller = g_array_controller_new (NULL);
-  reference = g_controller_create_reference (controller, 1, 0);
+  reference = g_controller_create_reference (controller, G_CONTROLLER_CLEAR,
+                                             G_TYPE_UINT, 1,
+                                             0);
 
   g_assert (G_IS_CONTROLLER_REFERENCE (reference));
   g_assert (g_controller_reference_get_index_type (reference) == G_TYPE_UINT);
@@ -87,7 +89,7 @@ array_emit_changed (void)
   value = 42;
   g_array_append_val (array, value);
 
-  ref = g_controller_create_reference (controller, 1, 0);
+  ref = g_controller_create_reference (controller, G_CONTROLLER_ADD, G_TYPE_UINT, 1, 0);
   g_assert (G_IS_CONTROLLER_REFERENCE (ref));
   g_controller_emit_changed (controller, G_CONTROLLER_ADD, ref);
 
@@ -112,7 +114,7 @@ array_bulk_emit_changed (void)
 
   id = g_signal_connect (controller, "changed", G_CALLBACK (on_changed), &expected);
 
-  ref = g_controller_create_reference (controller, 0);
+  ref = g_controller_create_reference (controller, G_CONTROLLER_ADD, G_TYPE_UINT, 0);
   g_assert (G_IS_CONTROLLER_REFERENCE (ref));
 
   expected.action = G_CONTROLLER_ADD;

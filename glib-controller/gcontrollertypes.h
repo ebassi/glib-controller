@@ -71,7 +71,7 @@ typedef struct _GHashController         GHashController;
 
 /**
  * GControllerAction:
- * @G_CONTROLLER_INVALID: Marker for initial/error state
+ * @G_CONTROLLER_INVALID_ACTION: Marker for initial/error state
  * @G_CONTROLLER_ADD: New items have been added to the storage
  *   controlled by a #GController
  * @G_CONTROLLER_REMOVE: Items have been removed from the storage
@@ -91,7 +91,8 @@ typedef struct _GHashController         GHashController;
  * This enumeration might be extended at later date
  */
 typedef enum { /*< prefix=G_CONTROLLER >*/
-  G_CONTROLLER_INVALID,
+  G_CONTROLLER_INVALID_ACTION,
+
   G_CONTROLLER_ADD,
   G_CONTROLLER_REMOVE,
   G_CONTROLLER_UPDATE,

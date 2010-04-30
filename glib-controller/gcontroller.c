@@ -37,28 +37,17 @@ static guint controller_signals[LAST_SIGNAL] = { 0, };
 
 G_DEFINE_ABSTRACT_TYPE (GController, g_controller, G_TYPE_OBJECT);
 
-static GType
-get_index_type (GController *controller)
-{
-  return G_TYPE_INVALID;
-}
-
 static GControllerReference *
-create_reference (GController *controller,
-                  GValueArray *indices)
+create_reference (GController       *controller,
+                  GControllerAction  action,
+                  GType              index_type,
+                  GValueArray       *indices)
 {
-  GType index_type;
-
-  index_type = G_CONTROLLER_GET_CLASS (controller)->get_index_type (controller);
-  if (G_UNLIKELY (index_type == G_TYPE_INVALID))
-    {
-      g_critical ("The GController of type '%s' has an invalid index type",
-                  G_OBJECT_TYPE_NAME (controller));
-      return NULL;
-    }
+  g_assert (index_type != G_TYPE_INVALID);
 
   return g_object_new (G_TYPE_CONTROLLER_REFERENCE,
                        "controller", controller,
+                       "action", action,
                        "index-type", index_type,
                        "indices", indices,
                        NULL);
@@ -67,7 +56,6 @@ create_reference (GController *controller,
 static void
 g_controller_class_init (GControllerClass *klass)
 {
-  klass->get_index_type = get_index_type;
   klass->create_reference = create_reference;
 
   /**
@@ -107,15 +95,22 @@ g_controller_init (GController *self)
 }
 
 static GControllerReference *
-g_controller_create_reference_internal (GController *controller,
-                                        GValueArray *indices)
+g_controller_create_reference_internal (GController       *controller,
+                                        GControllerAction  action,
+                                        GType              index_type,
+                                        GValueArray       *indices)
 {
-  return G_CONTROLLER_GET_CLASS (controller)->create_reference (controller, indices);
+  return G_CONTROLLER_GET_CLASS (controller)->create_reference (controller,
+                                                                action,
+                                                                index_type,
+                                                                indices);
 }
 
 /**
  * g_controller_create_referencev
  * @controller: a #GController
+ * @action: the action for the reference
+ * @index_type: the type of the indices
  * @indices: (allow-none): a #GValueArray containing the indices
  *
  * Creates a new #GControllerReference for the given indices
@@ -133,17 +128,22 @@ g_controller_create_reference_internal (GController *controller,
  *   instance. Use g_object_unref() when done using the returned object
  */
 GControllerReference *
-g_controller_create_referencev (GController *controller,
-                                GValueArray *indices)
+g_controller_create_referencev (GController       *controller,
+                                GControllerAction  action,
+                                GType              index_type,
+                                GValueArray       *indices)
 {
   g_return_val_if_fail (G_IS_CONTROLLER (controller), NULL);
+  g_return_val_if_fail (index_type != G_TYPE_INVALID, NULL);
 
-  return g_controller_create_reference_internal (controller, indices);
+  return g_controller_create_reference_internal (controller, action, index_type, indices);
 }
 
 /**
  * g_controller_create_reference:
  * @controller: a #GController
+ * @action: the action for the reference
+ * @index_type: the type of the indices
  * @n_indices: the number of indices, or 0 to create an empty reference
  * @VarArgs: the indices
  *
@@ -156,28 +156,22 @@ g_controller_create_referencev (GController *controller,
  *   instance. Use g_object_unref() when done using the returned object
  */
 GControllerReference *
-g_controller_create_reference (GController *controller,
-                               gint         n_indices,
+g_controller_create_reference (GController       *controller,
+                               GControllerAction  action,
+                               GType              index_type,
+                               gint               n_indices,
                                ...)
 {
   GControllerReference *ref;
   GValueArray *indices;
-  GType index_type;
   va_list args;
   gint i;
 
   g_return_val_if_fail (G_IS_CONTROLLER (controller), NULL);
-
-  index_type = G_CONTROLLER_GET_CLASS (controller)->get_index_type (controller);
-  if (G_UNLIKELY (index_type == G_TYPE_INVALID))
-    {
-      g_critical ("The GController of type '%s' has an invalid index type",
-                  G_OBJECT_TYPE_NAME (controller));
-      return NULL;
-    }
+  g_return_val_if_fail (index_type != G_TYPE_INVALID, NULL);
 
   if (n_indices == 0)
-    return g_controller_create_reference_internal (controller, NULL);
+    return g_controller_create_reference_internal (controller, action, index_type, NULL);
 
   indices = g_value_array_new (n_indices);
 
@@ -211,7 +205,10 @@ g_controller_create_reference (GController *controller,
 
   va_end (args);
 
-  ref = g_controller_create_reference_internal (controller, indices);
+  ref = g_controller_create_reference_internal (controller,
+                                                action,
+                                                index_type,
+                                                indices);
 
   g_value_array_free (indices);
 

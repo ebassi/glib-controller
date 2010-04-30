@@ -50,6 +50,7 @@ struct _GControllerReferenceClass
 GType g_controller_reference_get_type (void) G_GNUC_CONST;
 
 GController *         g_controller_reference_get_controller    (GControllerReference *ref);
+GControllerAction     g_controller_reference_get_action        (GControllerReference *ref);
 gint                  g_controller_reference_get_n_indices     (GControllerReference *ref);
 GType                 g_controller_reference_get_index_type    (GControllerReference *ref);
 

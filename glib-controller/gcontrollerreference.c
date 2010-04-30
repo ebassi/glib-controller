@@ -19,12 +19,16 @@
 
 #include "gcontrollerreference.h"
 #include "gcontroller.h"
+#include "gcontrollerenumtypes.h"
+#include "gcontrollertypes.h"
 
 #include <gobject/gvaluecollector.h>
 
 struct _GControllerReferencePrivate
 {
   GController *controller;
+
+  GControllerAction action;
 
   GType index_type;
   GValueArray *indices;
@@ -35,6 +39,7 @@ enum
   PROP_0,
 
   PROP_CONTROLLER,
+  PROP_ACTION,
   PROP_INDEX_TYPE,
   PROP_INDICES
 };
@@ -68,6 +73,13 @@ g_controller_reference_constructed (GObject *gobject)
 
   g_assert (G_IS_CONTROLLER (priv->controller));
 
+  if (priv->action == G_CONTROLLER_INVALID_ACTION)
+    {
+      g_critical ("The constructed reference for the GController "
+                  "of type '%s' does not have a valid action.",
+                  G_OBJECT_TYPE_NAME (priv->controller));
+    }
+
   if (priv->index_type == G_TYPE_INVALID)
     {
       g_critical ("The constructed reference for the GController "
@@ -88,6 +100,10 @@ g_controller_reference_set_property (GObject      *gobject,
     {
     case PROP_CONTROLLER:
       priv->controller = g_object_ref (g_value_get_object (value));
+      break;
+
+    case PROP_ACTION:
+      priv->action = g_value_get_enum (value);
       break;
 
     case PROP_INDEX_TYPE:
@@ -116,6 +132,10 @@ g_controller_reference_get_property (GObject    *gobject,
     {
     case PROP_CONTROLLER:
       g_value_set_object (value, priv->controller);
+      break;
+
+    case PROP_ACTION:
+      g_value_set_enum (value, priv->action);
       break;
 
     case PROP_INDEX_TYPE:
@@ -186,6 +206,21 @@ g_controller_reference_class_init (GControllerReferenceClass *klass)
   g_object_class_install_property (gobject_class, PROP_CONTROLLER, pspec);
 
   /**
+   * GControllerReference:action:
+   *
+   * The #GControllerAction that caused the creation of the reference
+   */
+  pspec = g_param_spec_enum ("action",
+                             "Action",
+                             "The action that caused the creation of the reference",
+                             G_TYPE_CONTROLLER_ACTION,
+                             G_CONTROLLER_INVALID_ACTION,
+                             G_PARAM_READWRITE |
+                             G_PARAM_CONSTRUCT_ONLY |
+                             G_PARAM_STATIC_STRINGS);
+  g_object_class_install_property (gobject_class, PROP_ACTION, pspec);
+
+  /**
    * GControllerReference:index-type:
    *
    * The #GType representation of an index stored by the reference
@@ -225,6 +260,8 @@ g_controller_reference_init (GControllerReference *self)
                                             GControllerReferencePrivate);
 
   self->priv->controller = NULL;
+
+  self->priv->action = G_CONTROLLER_INVALID_ACTION;
 
   self->priv->index_type = G_TYPE_INVALID;
   self->priv->indices = NULL;
@@ -279,6 +316,22 @@ g_controller_reference_get_controller (GControllerReference *ref)
   g_return_val_if_fail (G_IS_CONTROLLER_REFERENCE (ref), NULL);
 
   return ref->priv->controller;
+}
+
+/**
+ * g_controller_reference_get_action:
+ * @ref: a #GControllerReference
+ *
+ * Retrieves the action that caused the creation of this reference
+ *
+ * Return value: a #GControllerAction
+ */
+GControllerAction
+g_controller_reference_get_action (GControllerReference *ref)
+{
+  g_return_val_if_fail (G_IS_CONTROLLER_REFERENCE (ref), G_CONTROLLER_INVALID_ACTION);
+
+  return ref->priv->action;
 }
 
 /**

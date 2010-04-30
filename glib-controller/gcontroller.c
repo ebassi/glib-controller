@@ -218,7 +218,6 @@ g_controller_create_reference (GController       *controller,
 /**
  * g_controller_emit_changed:
  * @controller: a #GController
- * @action: the type of change to be emitted
  * @reference: the reference to the changed data
  *
  * Emits the #GController::changed signal with the given
@@ -226,14 +225,12 @@ g_controller_create_reference (GController       *controller,
  */
 void
 g_controller_emit_changed (GController          *controller,
-                           GControllerAction     action,
                            GControllerReference *reference)
 {
   g_return_if_fail (G_IS_CONTROLLER (controller));
-  g_return_if_fail (action >= G_CONTROLLER_ADD && action <= G_CONTROLLER_UPDATE);
   g_return_if_fail (G_IS_CONTROLLER_REFERENCE (reference));
 
   g_signal_emit (controller, controller_signals[CHANGED], 0,
-                 action,
+                 g_controller_reference_get_action (reference),
                  reference);
 }

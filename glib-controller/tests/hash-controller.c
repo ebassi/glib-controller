@@ -96,7 +96,7 @@ hash_emit_changed (void)
 
   ref = g_controller_create_reference (controller, G_CONTROLLER_ADD, G_TYPE_STRING, 1, foo);
   g_assert (G_IS_CONTROLLER_REFERENCE (ref));
-  g_controller_emit_changed (controller, G_CONTROLLER_ADD, ref);
+  g_controller_emit_changed (controller, ref);
 
   g_object_unref (ref);
   g_free (expected.indices);

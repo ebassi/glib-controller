@@ -74,7 +74,6 @@ GControllerReference *g_controller_create_referencev (GController          *cont
                                                       GValueArray          *indices);
 
 void                  g_controller_emit_changed      (GController          *controller,
-                                                      GControllerAction     action,
                                                       GControllerReference *reference);
 
 G_END_DECLS

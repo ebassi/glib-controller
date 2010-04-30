@@ -45,6 +45,18 @@ typedef struct _GControllerReference    GControllerReference;
  */
 typedef struct _GArrayController        GArrayController;
 
+#define G_TYPE_PTR_ARRAY_CONTROLLER     (g_ptr_array_controller_get_type ())
+#define G_PTR_ARRAY_CONTROLLER(obj)     (G_TYPE_CHECK_INSTANCE_CAST ((obj), G_TYPE_PTR_ARRAY_CONTROLLER, GPtrArrayController))
+#define G_IS_PTR_ARRAY_CONTROLLER(obj)  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), G_TYPE_PTR_ARRAY_CONTROLLER))
+
+/**
+ * GPtrArrayController:
+ *
+ * The <structname>GPtrArrayController</structname> structure contains
+ * only private data and should be accessed using the provided API
+ */
+typedef struct _GPtrArrayController     GPtrArrayController;
+
 #define G_TYPE_HASH_CONTROLLER          (g_hash_controller_get_type ())
 #define G_HASH_CONTROLLER(obj)          (G_TYPE_CHECK_INSTANCE_CAST ((obj), G_TYPE_HASH_CONTROLLER, GHashController))
 #define G_IS_HASH_CONTROLLER(obj)       (G_TYPE_CHECK_INSTANCE_TYPE ((obj), G_TYPE_HASH_CONTROLLER))

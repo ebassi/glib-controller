@@ -9,6 +9,7 @@
 
 #include "garraycontroller.h"
 #include "ghashcontroller.h"
+#include "gptrarraycontroller.h"
 
 #include "gcontrollerversion.h"
 #include "gcontrollerenumtypes.h"

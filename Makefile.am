@@ -39,6 +39,7 @@ source_c = \
 	glib-controller/gcontrollerreference.c	\
 	glib-controller/gcontroller.c 		\
 	glib-controller/ghashcontroller.c	\
+	glib-controller/gptrarraycontroller.c	\
 	$(NULL)
 
 source_public_h = \
@@ -47,6 +48,7 @@ source_public_h = \
 	glib-controller/gcontrollertypes.h	\
 	glib-controller/gcontroller.h		\
 	glib-controller/ghashcontroller.h	\
+	glib-controller/gptrarraycontroller.h	\
 	$(NULL)
 
 source_h = \

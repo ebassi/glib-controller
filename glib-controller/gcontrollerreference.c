@@ -22,6 +22,7 @@
 #include "gcontrollerenumtypes.h"
 #include "gcontrollertypes.h"
 
+#include <string.h>
 #include <gobject/gvaluecollector.h>
 
 struct _GControllerReferencePrivate

@@ -24,6 +24,7 @@
 #include "gcontrollermarshal.h"
 #include "gcontrollerreference.h"
 
+#include <string.h>
 #include <gobject/gvaluecollector.h>
 
 enum

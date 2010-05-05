@@ -174,6 +174,7 @@ my_simple_model_clear (MySimpleModel *model)
 
   array = g_ptr_array_new ();
   g_ptr_array_controller_set_array (G_PTR_ARRAY_CONTROLLER (model->controller), array);
+  model->array = array;
 
   ref = g_controller_create_reference (model->controller, G_CONTROLLER_CLEAR,
                                        G_TYPE_UINT, 0);

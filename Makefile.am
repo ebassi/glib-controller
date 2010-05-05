@@ -94,7 +94,7 @@ libglib_controller_1_0_la_LDFLAGS = 	\
 libglib_controller_1_0_la_LIBADD = $(GCONTROLLER_LIBS) $(GCOV_LIBS)
 libglib_controller_1_0_la_SOURCES = $(BUILT_SOURCES) $(source_c) $(source_h)
 libglib_controller_HEADERS = $(source_h)
-libglib_controllerdir = $(includedir)/glib-controller/1.0
+libglib_controllerdir = $(includedir)/glib-controller/1.0/glib-controller
 
 # Introspection
 -include $(INTROSPECTION_MAKEFILE)

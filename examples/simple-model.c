@@ -124,7 +124,7 @@ my_simple_model_remove_text (MySimpleModel *model,
   g_ptr_array_remove_index (model->array, pos);
 }
 
-G_CONST_RETURN gchar *
+const gchar *
 my_simple_model_get_text (MySimpleModel *model,
                           gint           pos)
 {
@@ -133,7 +133,7 @@ my_simple_model_get_text (MySimpleModel *model,
   return g_ptr_array_index (model->array, pos);
 }
 
-G_CONST_RETURN gchar **
+const gchar **
 my_simple_model_get_items (MySimpleModel *model)
 {
   g_return_val_if_fail (MY_IS_SIMPLE_MODEL (model), NULL);

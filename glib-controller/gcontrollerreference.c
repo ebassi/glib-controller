@@ -542,7 +542,7 @@ g_controller_reference_get_index_uint (GControllerReference *ref,
  *
  * Return value: a string index at the given position
  */
-G_CONST_RETURN gchar *
+const gchar *
 g_controller_reference_get_index_string (GControllerReference *ref,
                                          gint                  pos)
 {
@@ -565,7 +565,7 @@ g_controller_reference_get_index_string (GControllerReference *ref,
  *
  * Typed accessor for pointer indexes stored inside the @ref
  *
- * Return value: a pointer index at the given position
+ * Return value: (transfer none): a pointer index at the given position
  */
 gpointer
 g_controller_reference_get_index_pointer (GControllerReference *ref,

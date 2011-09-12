@@ -18,20 +18,20 @@ hash_constructor (void)
 }
 
 static void
-hash_create_reference (void)
+hash_create_event (void)
 {
   GController *controller;
-  GControllerReference *reference;
+  GControllerEvent *event;
 
   controller = g_hash_controller_new (NULL);
-  reference = g_controller_create_reference (controller, G_CONTROLLER_CLEAR, G_TYPE_POINTER, 1, GINT_TO_POINTER (0xdeadbeef));
+  event = g_controller_create_event (controller, G_CONTROLLER_CLEAR, G_TYPE_POINTER, 1, GINT_TO_POINTER (0xdeadbeef));
 
-  g_assert (G_IS_CONTROLLER_REFERENCE (reference));
-  g_assert (g_controller_reference_get_index_type (reference) == G_TYPE_POINTER);
-  g_assert_cmpint (g_controller_reference_get_n_indices (reference), ==, 1);
-  g_assert (g_controller_reference_get_index_pointer (reference, 0) == GINT_TO_POINTER (0xdeadbeef));
+  g_assert (G_IS_CONTROLLER_EVENT (event));
+  g_assert (g_controller_event_get_index_type (event) == G_TYPE_POINTER);
+  g_assert_cmpint (g_controller_event_get_n_indices (event), ==, 1);
+  g_assert (g_controller_event_get_index_pointer (event, 0) == GINT_TO_POINTER (0xdeadbeef));
 
-  g_object_unref (reference);
+  g_object_unref (event);
   g_object_unref (controller);
 }
 
@@ -45,15 +45,15 @@ typedef struct _ChangedClosure {
 static void
 on_changed (GController *controller,
             GControllerAction action,
-            GControllerReference *reference,
+            GControllerEvent *event,
             gpointer user_data)
 {
   ChangedClosure *clos = user_data;
   gint i, n_indices;
   GType index_type;
 
-  index_type = g_controller_reference_get_index_type (reference);
-  n_indices = g_controller_reference_get_n_indices (reference);
+  index_type = g_controller_event_get_index_type (event);
+  n_indices = g_controller_event_get_n_indices (event);
 
   g_assert_cmpint (action, ==, clos->action);
   g_assert (index_type == clos->index_type);
@@ -61,7 +61,7 @@ on_changed (GController *controller,
 
   for (i = 0; i < n_indices; i++)
     {
-      const gchar *idx = g_controller_reference_get_index_string (reference, i);
+      const gchar *idx = g_controller_event_get_index_string (event, i);
 
       if (g_test_verbose ())
         g_print ("Got '%s' (%p), expected '%s' (%p)\n",
@@ -78,7 +78,7 @@ hash_emit_changed (void)
   GHashTable *hash = g_hash_table_new_full (g_str_hash, g_str_equal, NULL, g_free);
   GController *controller = g_hash_controller_new (hash);
   ChangedClosure expected = { 0, };
-  GControllerReference *ref;
+  GControllerEvent *ref;
   gchar *foo;
   gulong id;
 
@@ -94,8 +94,8 @@ hash_emit_changed (void)
 
   g_hash_table_insert (hash, foo, g_strdup ("bar"));
 
-  ref = g_controller_create_reference (controller, G_CONTROLLER_ADD, G_TYPE_STRING, 1, foo);
-  g_assert (G_IS_CONTROLLER_REFERENCE (ref));
+  ref = g_controller_create_event (controller, G_CONTROLLER_ADD, G_TYPE_STRING, 1, foo);
+  g_assert (G_IS_CONTROLLER_EVENT (ref));
   g_controller_emit_changed (controller, ref);
 
   g_object_unref (ref);
@@ -115,7 +115,7 @@ main (int argc, char *argv[])
   g_test_init (&argc, &argv, NULL);
 
   g_test_add_func ("/hash/constructor", hash_constructor);
-  g_test_add_func ("/hash/create-reference", hash_create_reference);
+  g_test_add_func ("/hash/create-event", hash_create_event);
   g_test_add_func ("/hash/emit-changed", hash_emit_changed);
 
   return g_test_run ();

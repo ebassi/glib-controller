@@ -78,14 +78,14 @@ void
 my_simple_model_add_text (MySimpleModel *model,
                           const gchar   *text)
 {
-  GControllerReference *ref;
+  GControllerEvent *ref;
 
   g_return_if_fail (MY_IS_SIMPLE_MODEL (model));
   g_return_if_fail (text != NULL && text[0] != '\0');
 
   g_ptr_array_add (model->array, g_strdup (text));
 
-  ref = g_controller_create_reference (model->controller, G_CONTROLLER_ADD,
+  ref = g_controller_create_event (model->controller, G_CONTROLLER_ADD,
                                        G_TYPE_UINT, 1,
                                        model->array->len - 1);
   g_controller_emit_changed (model->controller, ref);
@@ -96,7 +96,7 @@ void
 my_simple_model_remove_text (MySimpleModel *model,
                              const gchar   *text)
 {
-  GControllerReference *ref;
+  GControllerEvent *ref;
   gint i, pos;
 
   g_return_if_fail (MY_IS_SIMPLE_MODEL (model));
@@ -115,7 +115,7 @@ my_simple_model_remove_text (MySimpleModel *model,
   if (pos == -1)
     return;
 
-  ref = g_controller_create_reference (model->controller, G_CONTROLLER_REMOVE,
+  ref = g_controller_create_event (model->controller, G_CONTROLLER_REMOVE,
                                        G_TYPE_UINT, 1,
                                        pos);
   g_controller_emit_changed (model->controller, ref);
@@ -146,7 +146,7 @@ my_simple_model_set_items (MySimpleModel       *model,
                            gint                 n_strings,
                            const gchar * const  text[])
 {
-  GControllerReference *ref;
+  GControllerEvent *ref;
   GPtrArray *array;
   gint i;
 
@@ -158,7 +158,7 @@ my_simple_model_set_items (MySimpleModel       *model,
 
   g_ptr_array_controller_set_array (G_PTR_ARRAY_CONTROLLER (model->controller), array);
 
-  ref = g_controller_create_reference (model->controller, G_CONTROLLER_REPLACE,
+  ref = g_controller_create_event (model->controller, G_CONTROLLER_REPLACE,
                                        G_TYPE_UINT, 0);
   g_controller_emit_changed (model->controller, ref);
   g_object_unref (ref);
@@ -167,7 +167,7 @@ my_simple_model_set_items (MySimpleModel       *model,
 void
 my_simple_model_clear (MySimpleModel *model)
 {
-  GControllerReference *ref;
+  GControllerEvent *ref;
   GPtrArray *array;
 
   g_return_if_fail (MY_IS_SIMPLE_MODEL (model));
@@ -176,7 +176,7 @@ my_simple_model_clear (MySimpleModel *model)
   g_ptr_array_controller_set_array (G_PTR_ARRAY_CONTROLLER (model->controller), array);
   model->array = array;
 
-  ref = g_controller_create_reference (model->controller, G_CONTROLLER_CLEAR,
+  ref = g_controller_create_event (model->controller, G_CONTROLLER_CLEAR,
                                        G_TYPE_UINT, 0);
   g_controller_emit_changed (model->controller, ref);
   g_object_unref (ref);
@@ -203,19 +203,19 @@ my_simple_model_get_controller (MySimpleModel *model)
 static void
 on_model_changed (GController *controller,
                   GControllerAction action,
-                  GControllerReference *ref,
+                  GControllerEvent *ref,
                   MySimpleModel *model)
 {
   gint i, n_indices;
 
-  n_indices = g_controller_reference_get_n_indices (ref);
+  n_indices = g_controller_event_get_n_indices (ref);
 
   switch (action)
     {
     case G_CONTROLLER_ADD:
       for (i = 0; i < n_indices; i++)
         {
-          gint idx = g_controller_reference_get_index_uint (ref, i);
+          gint idx = g_controller_event_get_index_uint (ref, i);
           const gchar *text;
 
           text = my_simple_model_get_text (model, idx);
@@ -228,7 +228,7 @@ on_model_changed (GController *controller,
     case G_CONTROLLER_REMOVE:
       for (i = 0; i < n_indices; i++)
         {
-          gint idx = g_controller_reference_get_index_uint (ref, i);
+          gint idx = g_controller_event_get_index_uint (ref, i);
           const gchar *text;
 
           text = my_simple_model_get_text (model, idx);

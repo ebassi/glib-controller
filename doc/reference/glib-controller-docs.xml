@@ -18,7 +18,7 @@
       <title>Base Classes</title>
 
       <xi:include href="xml/gcontroller.xml"/>
-      <xi:include href="xml/gcontrollerreference.xml"/>
+      <xi:include href="xml/gcontrollerevent.xml"/>
     </chapter>
 
     <chapter>

@@ -48,8 +48,8 @@ GPtrArrayControllerPrivate
 GController
 GControllerClass
 GControllerAction
-g_controller_create_reference
-g_controller_create_referencev
+g_controller_create_event
+g_controller_create_eventv
 g_controller_emit_changed
 
 <SUBSECTION Standard>
@@ -85,38 +85,38 @@ GArrayControllerPrivate
 </SECTION>
 
 <SECTION>
-<FILE>gcontrollerreference</FILE>
-<TITLE>GControllerReference</TITLE>
-GControllerReference
-GControllerReferenceClass
-g_controller_reference_get_controller
-g_controller_reference_get_action
-g_controller_reference_get_n_indices
-g_controller_reference_get_index_type
+<FILE>gcontrollerevent</FILE>
+<TITLE>GControllerEvent</TITLE>
+GControllerEvent
+GControllerEventClass
+g_controller_event_get_controller
+g_controller_event_get_action
+g_controller_event_get_n_indices
+g_controller_event_get_index_type
 
 <SUBSECTION>
-g_controller_reference_add_index_value
-g_controller_reference_get_index_value
-g_controller_reference_add_index
-g_controller_reference_get_index
+g_controller_event_add_index_value
+g_controller_event_get_index_value
+g_controller_event_add_index
+g_controller_event_get_index
 
 <SUBSECTION>
-g_controller_reference_get_index_int
-g_controller_reference_get_index_uint
-g_controller_reference_get_index_string
-g_controller_reference_get_index_pointer
+g_controller_event_get_index_int
+g_controller_event_get_index_uint
+g_controller_event_get_index_string
+g_controller_event_get_index_pointer
 
 <SUBSECTION Standard>
-g_controller_reference_get_type
-G_CONTROLLER_REFERENCE
-G_IS_CONTROLLER_REFERENCE
-G_CONTROLLER_REFERENCE_CLASS
-G_IS_CONTROLLER_REFERENCE_CLASS
-G_CONTROLLER_REFERENCE_GET_CLASS
-G_TYPE_CONTROLLER_REFERENCE
+g_controller_event_get_type
+G_CONTROLLER_EVENT
+G_IS_CONTROLLER_EVENT
+G_CONTROLLER_EVENT_CLASS
+G_IS_CONTROLLER_EVENT_CLASS
+G_CONTROLLER_EVENT_GET_CLASS
+G_TYPE_CONTROLLER_EVENT
 
 <SUBSECTION Private>
-GControllerReferencePrivate
+GControllerEventPrivate
 </SECTION>
 
 <SECTION>

@@ -4,7 +4,7 @@
 #define __GLIB_CONTROLLER_H_INSIDE__
 
 #include "gcontrollertypes.h"
-#include "gcontrollerreference.h"
+#include "gcontrollerevent.h"
 #include "gcontroller.h"
 
 #include "garraycontroller.h"

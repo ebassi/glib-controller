@@ -38,7 +38,7 @@ lib_LTLIBRARIES += libglib-controller-1.0.la
 
 source_c = \
 	glib-controller/garraycontroller.c 	\
-	glib-controller/gcontrollerreference.c	\
+	glib-controller/gcontrollerevent.c	\
 	glib-controller/gcontroller.c 		\
 	glib-controller/ghashcontroller.c	\
 	glib-controller/gptrarraycontroller.c	\
@@ -46,7 +46,7 @@ source_c = \
 
 source_public_h = \
 	glib-controller/garraycontroller.h	\
-	glib-controller/gcontrollerreference.h	\
+	glib-controller/gcontrollerevent.h	\
 	glib-controller/gcontrollertypes.h	\
 	glib-controller/gcontroller.h		\
 	glib-controller/ghashcontroller.h	\

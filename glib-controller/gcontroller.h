@@ -23,8 +23,8 @@ struct _GController
 
 /**
  * GControllerClass:
- * @create_reference: virtual function; sub-classes should create a new
- *   #GControllerReference instance for the given indexes
+ * @create_event: virtual function; sub-classes should create a new
+ *   #GControllerEvent instance for the given indexes
  * @changed: class handler for the #GController::changed signal
  *
  * The <structname>GControllerClass</structname> structure contains only
@@ -38,43 +38,36 @@ struct _GControllerClass
   /*< public >*/
 
   /* virtual functions */
-  GControllerReference *(* create_reference) (GController          *controller,
-                                              GControllerAction     action,
-                                              GType                 index_type,
-                                              GValueArray          *indexes);
+  GControllerEvent *    (* create_event)        (GController       *controller,
+                                                 GControllerAction  action,
+                                                 GType              index_type,
+                                                 GValueArray       *indexes);
 
   /* signals */
-  void                  (* changed)          (GController          *controller,
-                                              GControllerAction     action,
-                                              GControllerReference *reference);
+  void                  (* changed)             (GController       *controller,
+                                                 GControllerAction  action,
+                                                 GControllerEvent  *event);
 
   /*< private >*/
 
   /* padding, for future expansion */
-  void (*_g_controller0) (void);
-  void (*_g_controller1) (void);
-  void (*_g_controller2) (void);
-  void (*_g_controller3) (void);
-  void (*_g_controller4) (void);
-  void (*_g_controller5) (void);
-  void (*_g_controller6) (void);
-  void (*_g_controller7) (void);
+  gpointer _g_controller_padding[16];
 };
 
 GType g_controller_get_type (void) G_GNUC_CONST;
 
-GControllerReference *g_controller_create_reference  (GController          *controller,
-                                                      GControllerAction     action,
-                                                      GType                 index_type,
-                                                      gint                  n_indices,
-                                                      ...);
-GControllerReference *g_controller_create_referencev (GController          *controller,
-                                                      GControllerAction     action,
-                                                      GType                 index_type,
-                                                      GValueArray          *indices);
+GControllerEvent *      g_controller_create_event       (GController       *controller,
+                                                         GControllerAction  action,
+                                                         GType              index_type,
+                                                         gint               n_indices,
+                                                         ...);
+GControllerEvent *      g_controller_create_eventv      (GController       *controller,
+                                                         GControllerAction  action,
+                                                         GType              index_type,
+                                                         GValueArray       *indices);
 
-void                  g_controller_emit_changed      (GController          *controller,
-                                                      GControllerReference *reference);
+void                    g_controller_emit_changed       (GController       *controller,
+                                                         GControllerEvent  *event);
 
 G_END_DECLS
 

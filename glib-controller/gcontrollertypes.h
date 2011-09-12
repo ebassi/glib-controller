@@ -21,17 +21,17 @@ G_BEGIN_DECLS
  */
 typedef struct _GController             GController;
 
-#define G_TYPE_CONTROLLER_REFERENCE     (g_controller_reference_get_type ())
-#define G_CONTROLLER_REFERENCE(obj)     (G_TYPE_CHECK_INSTANCE_CAST ((obj), G_TYPE_CONTROLLER_REFERENCE, GControllerReference))
-#define G_IS_CONTROLLER_REFERENCE(obj)  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), G_TYPE_CONTROLLER_REFERENCE))
+#define G_TYPE_CONTROLLER_EVENT         (g_controller_event_get_type ())
+#define G_CONTROLLER_EVENT(obj)         (G_TYPE_CHECK_INSTANCE_CAST ((obj), G_TYPE_CONTROLLER_EVENT, GControllerEvent))
+#define G_IS_CONTROLLER_EVENT(obj)      (G_TYPE_CHECK_INSTANCE_TYPE ((obj), G_TYPE_CONTROLLER_EVENT))
 
 /**
- * GControllerReference:
+ * GControllerEvent:
  *
- * The <structname>GControllerReference</structname> structure contains
+ * The <structname>GControllerEvent</structname> structure contains
  * only private data and should be accessed using the provided API
  */
-typedef struct _GControllerReference    GControllerReference;
+typedef struct _GControllerEvent        GControllerEvent;
 
 #define G_TYPE_ARRAY_CONTROLLER         (g_array_controller_get_type ())
 #define G_ARRAY_CONTROLLER(obj)         (G_TYPE_CHECK_INSTANCE_CAST ((obj), G_TYPE_ARRAY_CONTROLLER, GArrayController))

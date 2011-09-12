@@ -20,7 +20,7 @@ m4_define([lt_current], [m4_eval(100 * controller_minor_version + controller_mic
 m4_define([lt_revision], [controller_interface_age])
 m4_define([lt_age], [m4_eval(controller_binary_age - controller_interface_age)])
 
-m4_define([glib_req_version], [2.20])
+m4_define([glib_req_version], [2.28])
 
 AC_PREREQ([2.63])
 

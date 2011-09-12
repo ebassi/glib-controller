@@ -9,7 +9,7 @@ hash_constructor (void)
   GHashTable *hash;
 
   hash = g_hash_table_new (NULL, NULL);
-  controller = g_hash_controller_new (hash);
+  controller = g_hash_controller_new_with_hash (hash);
   g_assert (G_IS_HASH_CONTROLLER (controller));
   g_assert (g_hash_controller_get_hash (G_HASH_CONTROLLER (controller)) == hash);
 
@@ -23,7 +23,7 @@ hash_create_event (void)
   GController *controller;
   GControllerEvent *event;
 
-  controller = g_hash_controller_new (NULL);
+  controller = g_hash_controller_new ();
   event = g_controller_create_event (controller, G_CONTROLLER_CLEAR, G_TYPE_POINTER, 1, GINT_TO_POINTER (0xdeadbeef));
 
   g_assert (G_IS_CONTROLLER_EVENT (event));
@@ -76,7 +76,7 @@ static void
 hash_emit_changed (void)
 {
   GHashTable *hash = g_hash_table_new_full (g_str_hash, g_str_equal, NULL, g_free);
-  GController *controller = g_hash_controller_new (hash);
+  GController *controller = g_hash_controller_new_with_hash (hash);
   ChangedClosure expected = { 0, };
   GControllerEvent *ref;
   gchar *foo;

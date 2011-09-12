@@ -38,11 +38,12 @@ struct _GArrayControllerClass
 
 GType g_array_controller_get_type (void) G_GNUC_CONST;
 
-GController *g_array_controller_new       (GArray           *array);
+GController *   g_array_controller_new                  (void);
+GController *   g_array_controller_new_with_array       (GArray           *array);
 
-void         g_array_controller_set_array (GArrayController *controller,
-                                           GArray           *array);
-GArray *     g_array_controller_get_array (GArrayController *controller);
+void            g_array_controller_set_array            (GArrayController *controller,
+                                                         GArray           *array);
+GArray *        g_array_controller_get_array            (GArrayController *controller);
 
 G_END_DECLS
 

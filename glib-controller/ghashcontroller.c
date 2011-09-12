@@ -23,10 +23,14 @@ enum
 {
   PROP_0,
 
-  PROP_HASH
+  HASH,
+
+  N_PROPERTIES
 };
 
-G_DEFINE_TYPE (GHashController, g_hash_controller, G_TYPE_CONTROLLER);
+static GParamSpec *controller_props[N_PROPERTIES] = { NULL, };
+
+G_DEFINE_TYPE (GHashController, g_hash_controller, G_TYPE_CONTROLLER)
 
 static void
 g_hash_controller_set_property (GObject      *gobject,
@@ -38,7 +42,7 @@ g_hash_controller_set_property (GObject      *gobject,
 
   switch (prop_id)
     {
-    case PROP_HASH:
+    case HASH:
       g_hash_controller_set_hash (self, g_value_get_boxed (value));
       break;
 
@@ -58,7 +62,7 @@ g_hash_controller_get_property (GObject    *gobject,
 
   switch (prop_id)
     {
-    case PROP_HASH:
+    case HASH:
       g_value_set_boxed (value, priv->hash);
       break;
 
@@ -69,39 +73,43 @@ g_hash_controller_get_property (GObject    *gobject,
 }
 
 static void
-g_hash_controller_finalize (GObject *gobject)
+g_hash_controller_dispose (GObject *gobject)
 {
   GHashControllerPrivate *priv = G_HASH_CONTROLLER (gobject)->priv;
 
-  if (priv->hash)
-    g_hash_table_unref (priv->hash);
+  if (priv->hash != NULL)
+    {
+      g_hash_table_unref (priv->hash);
+      priv->hash = NULL;
+    }
 
-  G_OBJECT_CLASS (g_hash_controller_parent_class)->finalize (gobject);
+  G_OBJECT_CLASS (g_hash_controller_parent_class)->dispose (gobject);
 }
 
 static void
 g_hash_controller_class_init (GHashControllerClass *klass)
 {
   GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
-  GParamSpec *pspec;
 
   gobject_class->set_property = g_hash_controller_set_property;
   gobject_class->get_property = g_hash_controller_get_property;
-  gobject_class->finalize = g_hash_controller_finalize;
+  gobject_class->dispose = g_hash_controller_dispose;
 
   /**
    * GHashController:hash:
    *
    * The #GHashTable to be controlled by a #GHashController instance
    */
-  pspec = g_param_spec_boxed ("hash",
-                              "Hash",
-                              "The GHashTable to be controlled",
-                              G_TYPE_HASH_TABLE,
-                              G_PARAM_READWRITE |
-                              G_PARAM_CONSTRUCT |
-                              G_PARAM_STATIC_STRINGS);
-  g_object_class_install_property (gobject_class, PROP_HASH, pspec);
+  controller_props[HASH] =
+    g_param_spec_boxed ("hash",
+                        "Hash",
+                        "The GHashTable to be controlled",
+                        G_TYPE_HASH_TABLE,
+                        G_PARAM_READWRITE |
+                        G_PARAM_CONSTRUCT |
+                        G_PARAM_STATIC_STRINGS);
+
+  g_object_class_install_properties (gobject_class, N_PROPERTIES, controller_props);
 
   g_type_class_add_private (klass, sizeof (GHashControllerPrivate));
 }
@@ -116,14 +124,27 @@ g_hash_controller_init (GHashController *self)
 
 /**
  * g_hash_controller_new:
- * @hash: (allow-none): a #GHashTable or %NULL
  *
- * Creates a new #GHashController controlling the @hash
+ * Creates a new #GHashController.
  *
- * Return value: the newly created #GHashController
+ * Return value: (transfer full): the newly created #GHashController
  */
 GController *
-g_hash_controller_new (GHashTable *hash)
+g_hash_controller_new (void)
+{
+  return g_object_new (G_TYPE_HASH_CONTROLLER, NULL);
+}
+
+/**
+ * g_hash_controller_new_with_hash:
+ * @hash: (allow-none): a #GHashTable or %NULL
+ *
+ * Creates a new #GHashController controlling the @hash.
+ *
+ * Return value: (transfer full): the newly created #GHashController
+ */
+GController *
+g_hash_controller_new_with_hash (GHashTable *hash)
 {
   return g_object_new (G_TYPE_HASH_CONTROLLER,
                        "hash", hash,
@@ -154,10 +175,11 @@ g_hash_controller_set_hash (GHashController *controller,
     g_hash_table_unref (controller->priv->hash);
 
   controller->priv->hash = hash;
+
   if (controller->priv->hash != NULL)
     g_hash_table_ref (controller->priv->hash);
 
-  g_object_notify (G_OBJECT (controller), "hash");
+  g_object_notify_by_pspec (G_OBJECT (controller), controller_props[HASH]);
 }
 
 /**

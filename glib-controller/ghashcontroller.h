@@ -38,11 +38,12 @@ struct _GHashControllerClass
 
 GType g_hash_controller_get_type (void) G_GNUC_CONST;
 
-GController *g_hash_controller_new      (GHashTable      *hash);
+GController *   g_hash_controller_new           (void);
+GController *   g_hash_controller_new_with_hash (GHashTable      *hash);
 
-void         g_hash_controller_set_hash (GHashController *controller,
-                                         GHashTable      *hash);
-GHashTable * g_hash_controller_get_hash (GHashController *controller);
+void            g_hash_controller_set_hash      (GHashController *controller,
+                                                 GHashTable      *hash);
+GHashTable *    g_hash_controller_get_hash      (GHashController *controller);
 
 G_END_DECLS
 

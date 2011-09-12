@@ -4,6 +4,7 @@
 GHashController
 GHashControllerClass
 g_hash_controller_new
+g_hash_controller_new_with_hash
 g_hash_controller_set_hash
 g_hash_controller_get_hash
 
@@ -26,6 +27,7 @@ GHashControllerPrivate
 GPtrArrayController
 GPtrArrayControllerClass
 g_ptr_array_controller_new
+g_ptr_array_controller_new_with_array
 g_ptr_array_controller_set_array
 g_ptr_array_controller_get_array
 
@@ -68,6 +70,7 @@ G_CONTROLLER_GET_CLASS
 GArrayController
 GArrayControllerClass
 g_array_controller_new
+g_array_controller_new_with_array
 g_array_controller_set_array
 g_array_controller_get_array
 

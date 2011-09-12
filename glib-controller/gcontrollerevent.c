@@ -37,15 +37,17 @@ enum
 {
   PROP_0,
 
-  PROP_CONTROLLER,
-  PROP_ACTION,
-  PROP_INDEX_TYPE,
-  PROP_INDICES
+  CONTROLLER,
+  ACTION,
+  INDEX_TYPE,
+  INDICES,
+
+  N_PROPERTIES
 };
 
-G_DEFINE_TYPE (GControllerEvent,
-               g_controller_event,
-               G_TYPE_OBJECT);
+static GParamSpec *event_props[N_PROPERTIES] = { NULL, };
+
+G_DEFINE_TYPE (GControllerEvent, g_controller_event, G_TYPE_OBJECT)
 
 static GValueArray *
 add_indices (GValueArray *cur_indices,
@@ -97,19 +99,19 @@ g_controller_event_set_property (GObject      *gobject,
 
   switch (prop_id)
     {
-    case PROP_CONTROLLER:
+    case CONTROLLER:
       priv->controller = g_object_ref (g_value_get_object (value));
       break;
 
-    case PROP_ACTION:
+    case ACTION:
       priv->action = g_value_get_enum (value);
       break;
 
-    case PROP_INDEX_TYPE:
+    case INDEX_TYPE:
       priv->index_type = g_value_get_gtype (value);
       break;
 
-    case PROP_INDICES:
+    case INDICES:
       priv->indices = add_indices (priv->indices, g_value_get_boxed (value));
       break;
 
@@ -129,19 +131,19 @@ g_controller_event_get_property (GObject    *gobject,
 
   switch (prop_id)
     {
-    case PROP_CONTROLLER:
+    case CONTROLLER:
       g_value_set_object (value, priv->controller);
       break;
 
-    case PROP_ACTION:
+    case ACTION:
       g_value_set_enum (value, priv->action);
       break;
 
-    case PROP_INDEX_TYPE:
+    case INDEX_TYPE:
       g_value_set_gtype (value, priv->index_type);
       break;
 
-    case PROP_INDICES:
+    case INDICES:
       g_value_set_boxed (value, priv->indices);
       break;
 
@@ -180,7 +182,6 @@ static void
 g_controller_event_class_init (GControllerEventClass *klass)
 {
   GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
-  GParamSpec *pspec;
 
   g_type_class_add_private (klass, sizeof (GControllerEventPrivate));
 
@@ -195,43 +196,43 @@ g_controller_event_class_init (GControllerEventClass *klass)
    *
    * The #GController instance that created this event
    */
-  pspec = g_param_spec_object ("controller",
-                               "Controller",
-                               "The controller instance that created the event",
-                               G_TYPE_CONTROLLER,
-                               G_PARAM_READWRITE |
-                               G_PARAM_CONSTRUCT_ONLY |
-                               G_PARAM_STATIC_STRINGS);
-  g_object_class_install_property (gobject_class, PROP_CONTROLLER, pspec);
+  event_props[CONTROLLER] =
+    g_param_spec_object ("controller",
+                         "Controller",
+                         "The controller instance that created the event",
+                         G_TYPE_CONTROLLER,
+                         G_PARAM_READWRITE |
+                         G_PARAM_CONSTRUCT_ONLY |
+                         G_PARAM_STATIC_STRINGS);
 
   /**
    * GControllerEvent:action:
    *
    * The #GControllerAction that caused the creation of the event
    */
-  pspec = g_param_spec_enum ("action",
-                             "Action",
-                             "The action that caused the creation of the event",
-                             G_TYPE_CONTROLLER_ACTION,
-                             G_CONTROLLER_INVALID_ACTION,
-                             G_PARAM_READWRITE |
-                             G_PARAM_CONSTRUCT_ONLY |
+  event_props[ACTION] =
+    g_param_spec_enum ("action",
+                       "Action",
+                       "The action that caused the creation of the event",
+                       G_TYPE_CONTROLLER_ACTION,
+                       G_CONTROLLER_INVALID_ACTION,
+                       G_PARAM_READWRITE |
+                       G_PARAM_CONSTRUCT_ONLY |
                              G_PARAM_STATIC_STRINGS);
-  g_object_class_install_property (gobject_class, PROP_ACTION, pspec);
 
   /**
    * GControllerEvent:index-type:
    *
    * The #GType representation of an index stored by the event
    */
-  pspec = g_param_spec_gtype ("index-type",
-                              "Index Type",
-                              "The type of the indices",
-                              G_TYPE_NONE,
-                              G_PARAM_READWRITE |
-                              G_PARAM_CONSTRUCT_ONLY |
-                              G_PARAM_STATIC_STRINGS);
-  g_object_class_install_property (gobject_class, PROP_INDEX_TYPE, pspec);
+  event_props[INDEX_TYPE] =
+    g_param_spec_gtype ("index-type",
+                        "Index Type",
+                        "The type of the indices",
+                        G_TYPE_NONE,
+                        G_PARAM_READWRITE |
+                        G_PARAM_CONSTRUCT_ONLY |
+                        G_PARAM_STATIC_STRINGS);
 
   /**
    * GControllerEvent:indices:
@@ -241,14 +242,16 @@ g_controller_event_class_init (GControllerEventClass *klass)
    * The indices are meaningful only for the data storage controlled
    * by the #GController that created this event
    */
-  pspec = g_param_spec_boxed ("indices",
-                              "Indices",
-                              "The indices inside the data storage",
-                              G_TYPE_VALUE_ARRAY,
-                              G_PARAM_READWRITE |
-                              G_PARAM_CONSTRUCT_ONLY |
-                              G_PARAM_STATIC_STRINGS);
-  g_object_class_install_property (gobject_class, PROP_INDICES, pspec);
+  event_props[INDICES] =
+    g_param_spec_boxed ("indices",
+                        "Indices",
+                        "The indices inside the data storage",
+                        G_TYPE_VALUE_ARRAY,
+                        G_PARAM_READWRITE |
+                        G_PARAM_CONSTRUCT_ONLY |
+                        G_PARAM_STATIC_STRINGS);
+
+  g_object_class_install_properties (gobject_class, N_PROPERTIES, event_props);
 }
 
 static void

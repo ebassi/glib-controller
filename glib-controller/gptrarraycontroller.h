@@ -38,11 +38,12 @@ struct _GPtrArrayControllerClass
 
 GType g_ptr_array_controller_get_type (void) G_GNUC_CONST;
 
-GController *g_ptr_array_controller_new       (GPtrArray           *array);
+GController *   g_ptr_array_controller_new              (void);
+GController *   g_ptr_array_controller_new_with_array   (GPtrArray           *array);
 
-void         g_ptr_array_controller_set_array (GPtrArrayController *controller,
-                                               GPtrArray           *array);
-GPtrArray *  g_ptr_array_controller_get_array (GPtrArrayController *controller);
+void            g_ptr_array_controller_set_array        (GPtrArrayController *controller,
+                                                         GPtrArray           *array);
+GPtrArray *     g_ptr_array_controller_get_array        (GPtrArrayController *controller);
 
 G_END_DECLS
 

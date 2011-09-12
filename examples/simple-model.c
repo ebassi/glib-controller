@@ -62,7 +62,7 @@ my_simple_model_init (MySimpleModel *model)
 {
   GPtrArray *array = g_ptr_array_new_with_free_func (g_free);
 
-  model->controller = g_ptr_array_controller_new (array);
+  model->controller = g_ptr_array_controller_new_with_array (array);
   g_ptr_array_unref (array);
 
   model->array = array;

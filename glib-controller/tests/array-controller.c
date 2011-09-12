@@ -9,7 +9,7 @@ array_constructor (void)
   GArray *array;
 
   array = g_array_new (FALSE, FALSE, sizeof (int));
-  controller = g_array_controller_new (array);
+  controller = g_array_controller_new_with_array (array);
   g_assert (G_IS_ARRAY_CONTROLLER (controller));
   g_assert (g_array_controller_get_array (G_ARRAY_CONTROLLER (controller)) == array);
 
@@ -23,10 +23,10 @@ array_create_event (void)
   GController *controller;
   GControllerEvent *event;
 
-  controller = g_array_controller_new (NULL);
+  controller = g_array_controller_new ();
   event = g_controller_create_event (controller, G_CONTROLLER_CLEAR,
-                                             G_TYPE_UINT, 1,
-                                             0);
+                                     G_TYPE_UINT, 1,
+                                     0);
 
   g_assert (G_IS_CONTROLLER_EVENT (event));
   g_assert (g_controller_event_get_index_type (event) == G_TYPE_UINT);
@@ -72,7 +72,7 @@ static void
 array_emit_changed (void)
 {
   GArray *array = g_array_new (FALSE, FALSE, sizeof (int));
-  GController *controller = g_array_controller_new (array);
+  GController *controller = g_array_controller_new_with_array (array);
   ChangedClosure expected = { 0, 0 };
   GControllerEvent *ref;
   gulong id;
@@ -106,7 +106,7 @@ static void
 array_bulk_emit_changed (void)
 {
   GArray *array = g_array_new (FALSE, FALSE, sizeof (int));
-  GController *controller = g_array_controller_new (array);
+  GController *controller = g_array_controller_new_with_array (array);
   ChangedClosure expected = { 0, 0 };
   GControllerEvent *ref;
   gulong id;

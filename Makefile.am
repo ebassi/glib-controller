@@ -105,11 +105,11 @@ INTROSPECTION_COMPILER_ARGS = --includedir=$(top_srcdir) --includedir=$(top_buil
 if HAVE_INTROSPECTION
 GController-1.0.gir: $(INTROSPECTION_SCANNER) $(top_builddir)/libglib-controller-1.0.la
 
-GController_1_0_gir_SCANNERFLAGS = --strip-prefix=G
+GController_1_0_gir_SCANNERFLAGS = --identifier-prefix=G --symbol-prefix=g --c-include='glib-controller/glib-controller.h' --pkg-export glib-controller-1.0 --warn-all
 GController_1_0_gir_INCLUDES = GObject-2.0
 GController_1_0_gir_CFLAGS = -I$(top_srcdir) -I$(top_srcdir)/glib-controller -I$(top_builddir) -DG_DISABLE_DEPRECATED -DGLIB_CONTROLLER_COMPILATION
 GController_1_0_gir_LIBS = $(top_builddir)/libglib-controller-1.0.la
-GController_1_0_gir_FILES = $(source_h) $(source_c)
+GController_1_0_gir_FILES = $(BUILT_SOURCES) $(source_h) $(source_c)
 
 INTROSPECTION_GIRS += GController-1.0.gir
 endif

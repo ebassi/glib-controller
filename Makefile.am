@@ -57,6 +57,7 @@ source_h = \
 	$(source_public_h)			\
 	glib-controller/gcontrollerversion.h	\
 	glib-controller/glib-controller.h	\
+	glib-controller/gcontrollerenumtypes.h	\
 	$(NULL)
 
 # marshallers

@@ -8,11 +8,8 @@ G_DEFINE_INTERFACE (GIterable, g_iterable, G_TYPE_OBJECT)
 static GIterator *
 g_iterable_real_create_iterator (GIterable *iterable)
 {
-  GIterableInterface *iface = G_ITERABLE_GET_INTERFACE (iterable);
-
-  if (iface->iterator_type != G_TYPE_INVALID &&
-      g_type_is_a (iface->iterator_type, G_TYPE_ITERATOR))
-    return g_iterator_create (iface->iterator_type);
+  g_warning ("The iterable of type '%s' does not implement the GIterable::create_iterator virtual function",
+             G_OBJECT_TYPE_NAME (iterable));
 
   return NULL;
 }
@@ -20,7 +17,6 @@ g_iterable_real_create_iterator (GIterable *iterable)
 static void
 g_iterable_default_init (GIterableInterface *iface)
 {
-  iface->iterator_type = G_TYPE_INVALID;
   iface->create_iterator = g_iterable_real_create_iterator;
 }
 

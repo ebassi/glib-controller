@@ -7,6 +7,9 @@
 #include "gcontrollerevent.h"
 #include "gcontroller.h"
 
+#include "giterable.h"
+#include "giterator.h"
+
 #include "garraycontroller.h"
 #include "ghashcontroller.h"
 #include "gptrarraycontroller.h"

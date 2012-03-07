@@ -9,9 +9,21 @@
 
 G_BEGIN_DECLS
 
-#define G_TYPE_CONTROLLER       (g_controller_get_type ())
-#define G_CONTROLLER(obj)       (G_TYPE_CHECK_INSTANCE_CAST ((obj), G_TYPE_CONTROLLER, GController))
-#define G_IS_CONTROLLER(obj)    (G_TYPE_CHECK_INSTANCE_TYPE ((obj), G_TYPE_CONTROLLER))
+#define G_TYPE_ITERATOR                 (g_iterator_get_type ())
+#define G_ITERATOR(obj)                 (G_TYPE_CHECK_INSTANCE_CAST ((obj), G_TYPE_ITERATOR, GIterator))
+#define G_IS_ITERATOR(obj)              (G_TYPE_CHECK_INSTANCE_TYPE ((obj), G_TYPE_ITERATOR))
+
+typedef struct _GIterator               GIterator;
+
+#define G_TYPE_ITERABLE                 (g_iterable_get_type ())
+#define G_ITERABLE(obj)                 (G_TYPE_CHECK_INSTANCE_CAST ((obj), G_TYPE_ITERABLE, GIterable))
+#define G_IS_ITERABLE(obj)              (G_TYPE_CHECK_INSTANCE_TYPE ((obj), G_TYPE_ITERABLE))
+
+typedef struct _GIterable               GIterable;
+
+#define G_TYPE_CONTROLLER               (g_controller_get_type ())
+#define G_CONTROLLER(obj)               (G_TYPE_CHECK_INSTANCE_CAST ((obj), G_TYPE_CONTROLLER, GController))
+#define G_IS_CONTROLLER(obj)            (G_TYPE_CHECK_INSTANCE_TYPE ((obj), G_TYPE_CONTROLLER))
 
 /**
  * GController:

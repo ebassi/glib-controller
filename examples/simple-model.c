@@ -336,7 +336,6 @@ main (int argc, char *argv[])
       g_print ("\trow[%d] = '%s'\n", i, my_simple_model_get_text (model, i));
       i += 1;
     }
-  g_iterator_unref (iter);
 
   my_simple_model_remove_text (model, "baz");
 
@@ -348,15 +347,8 @@ main (int argc, char *argv[])
       g_print ("\trow[%d] = '%s'\n", i, my_simple_model_get_text (model, i));
       i += 1;
     }
-  g_iterator_unref (iter);
 
   my_simple_model_clear (model);
-
-  g_print ("Model contents:\n");
-  iter = g_iterable_create_iterator (G_ITERABLE (model));
-  while (g_iterator_next (iter))
-    g_assert_not_reached ();
-  g_iterator_unref (iter);
 
   g_object_unref (model);
 

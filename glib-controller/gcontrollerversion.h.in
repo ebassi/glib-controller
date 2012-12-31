@@ -13,4 +13,8 @@
 
 #define G_CONTROLLER_VERSION_S          "@GCONTROLLER_VERSION@"
 
+#define G_CONTROLLER_VERSION_HEX        (G_CONTROLLER_MAJOR_VERSION << 24 | \
+                                         G_CONTROLLER_MINOR_VERSION << 16 | \
+                                         G_CONTROLLER_MICRO_VERSION <<  8)
+
 #endif /* __G_CONTROLLER_VERSION_H__ */

@@ -33,24 +33,7 @@ G_END_DECLS
 
 /* implementation */
 
-typedef struct _MySimpleIter {
-  GIterator parent_instance;
-
-  int size;
-  int last_pos;
-} MySimpleIter;
-
-typedef struct _GIteratorClass  MySimpleIterClass;
-
-GType my_simple_iter_get_type (void) G_GNUC_CONST;
-
-static void g_iterable_iface_init (GIterableInterface *iface);
-
-G_DEFINE_TYPE (MySimpleIter, my_simple_iter, G_TYPE_ITERATOR)
-
-G_DEFINE_TYPE_WITH_CODE (MySimpleModel, my_simple_model, G_TYPE_OBJECT,
-                         G_IMPLEMENT_INTERFACE (G_TYPE_ITERABLE,
-                                                g_iterable_iface_init))
+G_DEFINE_TYPE (MySimpleModel, my_simple_model, G_TYPE_OBJECT);
 
 static void
 my_simple_model_dispose (GObject *gobject)
@@ -83,51 +66,6 @@ my_simple_model_init (MySimpleModel *model)
   g_ptr_array_unref (array);
 
   model->array = array;
-}
-
-static GIterator *
-my_simple_model_create_iterator (GIterable *iterable)
-{
-  MySimpleModel *self = MY_SIMPLE_MODEL (iterable);
-  MySimpleIter *iter = g_iterator_create (my_simple_iter_get_type ());
-
-  iter->size = self->array->len;
-  iter->last_pos = -1;
-
-  return G_ITERATOR (iter);
-}
-
-static void
-g_iterable_iface_init (GIterableInterface *iface)
-{
-  iface->create_iterator = my_simple_model_create_iterator;
-}
-
-static gboolean
-my_simple_iter_next (GIterator *iter)
-{
-  MySimpleIter *self = (MySimpleIter *) iter;
-
-  if (self->last_pos + 1 < self->size)
-    {
-      self->last_pos += 1;
-
-      return TRUE;
-    }
-
-  return FALSE;
-}
-
-static void
-my_simple_iter_class_init (MySimpleIterClass *klass)
-{
-  G_ITERATOR_CLASS (klass)->next = my_simple_iter_next;
-}
-
-static void
-my_simple_iter_init (MySimpleIter *self)
-{
-  self->last_pos = -1;
 }
 
 MySimpleModel *
@@ -313,8 +251,8 @@ int
 main (int argc, char *argv[])
 {
   MySimpleModel *model;
-  GIterator *iter;
-  gint i;
+  const gchar **items;
+  gint n_items, i;
 
   g_type_init ();
 
@@ -328,25 +266,21 @@ main (int argc, char *argv[])
   my_simple_model_add_text (model, "bar");
   my_simple_model_add_text (model, "baz");
 
-  i = 0;
+  items = my_simple_model_get_items (model);
+  n_items = my_simple_model_get_size (model);
+
   g_print ("Model contents:\n");
-  iter = g_iterable_create_iterator (G_ITERABLE (model));
-  while (g_iterator_next (iter))
-    {
-      g_print ("\trow[%d] = '%s'\n", i, my_simple_model_get_text (model, i));
-      i += 1;
-    }
+  for (i = 0; i < n_items; i++)
+    g_print ("\trow[%d] = '%s'\n", i, items[i]);
 
   my_simple_model_remove_text (model, "baz");
 
-  i = 0;
+  items = my_simple_model_get_items (model);
+  n_items = my_simple_model_get_size (model);
+
   g_print ("Model contents:\n");
-  iter = g_iterable_create_iterator (G_ITERABLE (model));
-  while (g_iterator_next (iter))
-    {
-      g_print ("\trow[%d] = '%s'\n", i, my_simple_model_get_text (model, i));
-      i += 1;
-    }
+  for (i = 0; i < n_items; i++)
+    g_print ("\trow[%d] = '%s'\n", i, items[i]);
 
   my_simple_model_clear (model);
 

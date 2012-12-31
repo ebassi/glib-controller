@@ -13,6 +13,8 @@ struct _GIterableInterface
 {
   GTypeInterface g_iface;
 
+  GType iterator_type;
+
   GIterator *(* create_iterator) (GIterable *iterable);
 };
 

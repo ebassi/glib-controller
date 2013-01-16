@@ -4,6 +4,10 @@
 #define __GLIB_CONTROLLER_H_INSIDE__
 
 #include "gcontrollertypes.h"
+
+#include "gindexset.h"
+#include "grange.h"
+
 #include "gcontrollerevent.h"
 #include "gcontroller.h"
 

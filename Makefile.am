@@ -41,7 +41,9 @@ source_c = \
 	glib-controller/gcontrollerevent.c	\
 	glib-controller/gcontroller.c 		\
 	glib-controller/ghashcontroller.c	\
+	glib-controller/gindexset.c		\
 	glib-controller/gptrarraycontroller.c	\
+	glib-controller/grange.c		\
 	$(NULL)
 
 source_public_h = \
@@ -50,7 +52,9 @@ source_public_h = \
 	glib-controller/gcontrollertypes.h	\
 	glib-controller/gcontroller.h		\
 	glib-controller/ghashcontroller.h	\
+	glib-controller/gindexset.h		\
 	glib-controller/gptrarraycontroller.h	\
+	glib-controller/grange.h		\
 	$(NULL)
 
 source_h = \
@@ -126,17 +130,27 @@ CLEANFILES += $(dist_gir_DATA) $(typelibs_DATA)
 # GTest rules
 include $(top_srcdir)/build/Makefile.am.gtest
 
+test_cppflags = $(AM_CPPFLAGS) $(GCONTROLLER_DEBUG_CFLAGS) -DG_DISABLE_DEPRECATION_WARNINGS -I$(top_srcdir) -I$(top_srcdir)/glib-controller -I$(top_builddir)
+test_cflags = $(GCONTROLLER_CFLAGS) $(MAINTAINER_CFLAGS)
+test_ldadd = $(GCONTROLLER_LIBS) $(top_builddir)/libglib-controller-1.0.la
+
 TEST_PROGS += array-controller
 array_controller_SOURCES = glib-controller/tests/array-controller.c
-array_controller_CPPFLAGS = $(AM_CPPFLAGS) $(GCONTROLLER_DEBUG_CFLAGS) -I$(top_srcdir) -I$(top_srcdir)/glib-controller -I$(top_builddir)
-array_controller_CFLAGS = $(GCONTROLLER_CFLAGS) $(MAINTAINER_CFLAGS)
-array_controller_LDADD = $(GCONTROLLER_LIBS) $(top_builddir)/libglib-controller-1.0.la
+array_controller_CPPFLAGS = $(test_cppflags)
+array_controller_CFLAGS = $(test_cflags)
+array_controller_LDADD = $(test_ldadd)
 
 TEST_PROGS += hash-controller
 hash_controller_SOURCES = glib-controller/tests/hash-controller.c
-hash_controller_CPPFLAGS = $(AM_CPPFLAGS) $(GCONTROLLER_DEBUG_CFLAGS) -I$(top_srcdir) -I$(top_srcdir)/glib-controller -I$(top_builddir)
-hash_controller_CFLAGS = $(GCONTROLLER_CFLAGS) $(MAINTAINER_CFLAGS)
-hash_controller_LDADD = $(GCONTROLLER_LIBS) $(top_builddir)/libglib-controller-1.0.la
+hash_controller_CPPFLAGS = $(test_cppflags)
+hash_controller_CFLAGS = $(test_cflags)
+hash_controller_LDADD = $(test_ldadd)
+
+TEST_PROGS += index-set
+index_set_SOURCES = glib-controller/tests/index-set.c
+index_set_CPPFLAGS = $(test_cppflags)
+index_set_CFLAGS = $(test_cflags)
+index_set_LDADD = $(test_ldadd)
 
 # Examples
 noinst_PROGRAMS += simple-model

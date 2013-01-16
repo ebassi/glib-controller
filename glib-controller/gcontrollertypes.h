@@ -9,9 +9,31 @@
 
 G_BEGIN_DECLS
 
-#define G_TYPE_CONTROLLER       (g_controller_get_type ())
-#define G_CONTROLLER(obj)       (G_TYPE_CHECK_INSTANCE_CAST ((obj), G_TYPE_CONTROLLER, GController))
-#define G_IS_CONTROLLER(obj)    (G_TYPE_CHECK_INSTANCE_TYPE ((obj), G_TYPE_CONTROLLER))
+#define G_TYPE_RANGE                    (g_range_get_type ())
+
+/**
+ * GRange:
+ * @location: the origin of the range, starting from 0
+ * @length: the length of the range
+ *
+ * A structure expressing a continuguous portion of a series, such as
+ * characters in a string, or elements inside an array.
+ */
+typedef struct _GRange                  GRange;
+
+#define G_TYPE_INDEX_SET                (g_index_set_get_type ())
+
+/**
+ * GIndexSet:
+ *
+ * The <structname>GIndexSet</structname> structure contains only
+ * private data and should be accessed using the provided API
+ */
+typedef struct _GIndexSet               GIndexSet;
+
+#define G_TYPE_CONTROLLER               (g_controller_get_type ())
+#define G_CONTROLLER(obj)               (G_TYPE_CHECK_INSTANCE_CAST ((obj), G_TYPE_CONTROLLER, GController))
+#define G_IS_CONTROLLER(obj)            (G_TYPE_CHECK_INSTANCE_TYPE ((obj), G_TYPE_CONTROLLER))
 
 /**
  * GController:

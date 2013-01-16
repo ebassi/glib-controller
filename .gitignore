@@ -49,6 +49,7 @@ glib-controller/gcontrollermarshal.[ch]
 glib-controller/gcontrollerversion.h
 gtk-doc.make
 hash-controller
+index-set
 install-sh
 libtool
 ltmain.sh

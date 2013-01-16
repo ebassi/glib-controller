@@ -10,22 +10,22 @@ model and the controller sides into one data structure.
 
 Encapsulation of storage and controller has invariably led to some issues:
 
-  • data replication: unless the model is an interface that resides at a
-    lower level in the dependency chain, and that can be bolted on top of
-    an existing data storage, there has to be a copy from the simple data
-    storage types provided by GLib (GArray, GList, GHashTable, etc.) into
-    the model itself.
+ * data replication: unless the model is an interface that resides at a
+   lower level in the dependency chain, and that can be bolted on top of
+   an existing data storage, there has to be a copy from the simple data
+   storage types provided by GLib (GArray, GList, GHashTable, etc.) into
+   the model itself.
 
-  • data access replication: be the model an interface or a base class,
-    it requires the implementation of an API to access the data from the
-    storage, including iteration over the data storage.
+ * data access replication: be the model an interface or a base class,
+   it requires the implementation of an API to access the data from the
+   storage, including iteration over the data storage.
 
-  • loss of performance/generality: if a model has to be accessible from
-    higher levels of the platform stack, it has to lose every knowledge
-    of data types, or re-implement them abstractly, incurring in a loss
-    of performance; conversely, if it can be placed at higher levels of
-    the stack, it will become tied to the view structure, losing
-    generality.
+ * loss of performance/generality: if a model has to be accessible from
+   higher levels of the platform stack, it has to lose every knowledge
+   of data types, or re-implement them abstractly, incurring in a loss
+   of performance; conversely, if it can be placed at higher levels of
+   the stack, it will become tied to the view structure, losing
+   generality.
 
 These issues have been nominally approached by different libraries in
 different ways - but always trying to maintain the model (data storage)
